@@ -28,8 +28,8 @@ class User(UserMixin):
 oauth = OAuth(app)
 google = oauth.register(
     name='google',
-    client_id='612248981422-j61ue92ug9kflfk3dqkf29l2fnsmg083.apps.googleusercontent.com',
-    client_secret='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',
+    client_id='',
+    client_secret='',
     access_token_url='https://accounts.google.com/o/oauth2/token',
     access_token_params=None,
     authorize_url='https://accounts.google.com/o/oauth2/auth',
