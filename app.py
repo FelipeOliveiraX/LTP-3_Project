@@ -1,4 +1,5 @@
 from flask import Flask, url_for, redirect, session
+from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
 from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin
 
@@ -8,20 +9,10 @@ app = Flask(__name__)
 app.secret_key = 'really_secret'
 # ---------------------------------------------------------------------------------------------
 
-# -------------------------  FLASK LOGIN  -----------------------------------------------------
-login_manager = LoginManager(app)
-login_manager.login_view = 'not_logged_in'
-
-@login_manager.user_loader
-def load_user(user_id):
-    # Cria uma instância de User com base no user_id
-    # ALTERAR PARA COMPARAR COM O BANCO
-    user = User(user_id)
-    return user
-
-class User(UserMixin):
-    def __init__(self, user_id):
-        self.id = user_id
+# -------------------------  DATABASE CONFIG  -------------------------------------------------
+# Configuração do SQLAlchemy
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+db = SQLAlchemy(app)
 # ---------------------------------------------------------------------------------------------
 
 # -------------------------  OAUTH CONFIG  ----------------------------------------------------
@@ -38,6 +29,22 @@ google = oauth.register(
     client_kwargs={'scope': 'openid email profile'},
     jwks_uri = "https://www.googleapis.com/oauth2/v3/certs"
 )
+# ---------------------------------------------------------------------------------------------
+
+# -------------------------  FLASK LOGIN  -----------------------------------------------------
+login_manager = LoginManager(app)
+login_manager.login_view = 'not_logged_in'
+
+@login_manager.user_loader
+def load_user(user_id):
+    # Cria uma instância de User com base no user_id
+    # ALTERAR PARA COMPARAR COM O BANCO
+    user = User(user_id)
+    return user
+
+class User(UserMixin):
+    def __init__(self, user_id):
+        self.id = user_id
 # ---------------------------------------------------------------------------------------------
 
 # -------------------------  ROUTES  ----------------------------------------------------------
