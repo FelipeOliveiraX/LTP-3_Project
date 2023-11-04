@@ -55,8 +55,8 @@ class User(UserMixin):
 @app.route("/")
 @login_required
 def hello_world():
-    email = dict(session).get('email', None)
-    return f'Hello, you are logged in as {email}!'"<a href='/logout'><button>Logout</button></a>"    
+    name = dict(session).get('name', None)
+    return f'Olá, seja bem-vindo(a) {name}!'"<a href='/logout'><button>Logout</button></a>"    
 
 # rota intermediária para login (não precisa de template)
 @app.route('/login')
@@ -75,6 +75,8 @@ def authorize():
     # Cria uma instância do usuário e faz o login
     user = User(user_info['email'])
     login_user(user)
+    # Armazene o nome na sessão
+    session['name'] = user_info.get('name', None)     
     return redirect('/')
 
 # rota temporária da página de usuário não logado, melhorar futuramente
