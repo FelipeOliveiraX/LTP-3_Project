@@ -1,7 +1,6 @@
-import sys
-sys.path.append('..')
-from app import app, db
 from flask_sqlalchemy import SQLAlchemy
+
+db = SQLAlchemy()
 
 class Cursos(db.Model):
     __tablename__ = 'cursos'  # Nome da tabela no banco de dados

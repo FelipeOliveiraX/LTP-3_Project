@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Detalhes do Curso</title>
+</head>
+<body>
+    <h1>{{ curso.Titulo }}</h1>
+    <h2>Nível: Ensino {{ curso.Nivel }}</h2>
+
+    <h3>Matérias</h3>
+    <ul>
+        {% for materia in materias %}
+            <li>{{ materia.Titulo }} - Professor(a): {{ materia.professor_nome }}</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

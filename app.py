@@ -1,18 +1,21 @@
-from flask import Flask, url_for, redirect, session
+from flask import Flask, url_for, redirect, session, render_template
 from flask_sqlalchemy import SQLAlchemy
 from authlib.integrations.flask_client import OAuth
 from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin
+from models.database import db, Cursos, Materias, Professores
+from collections import defaultdict
 
 
 # -------------------------  START FLASK  -----------------------------------------------------
-app = Flask(__name__)
+app = Flask(__name__, template_folder='templates')
+app.debug = True
 app.secret_key = 'really_secret'
 # ---------------------------------------------------------------------------------------------
 
 # -------------------------  DATABASE CONFIG  -------------------------------------------------
 # Configuração do SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
-db = SQLAlchemy(app)
+db.init_app(app)
 # ---------------------------------------------------------------------------------------------
 
 # -------------------------  OAUTH CONFIG  ----------------------------------------------------
@@ -38,7 +41,7 @@ login_manager.login_view = 'not_logged_in'
 @login_manager.user_loader
 def load_user(user_id):
     # Cria uma instância de User com base no user_id
-    # ALTERAR PARA COMPARAR COM O BANCO
+    # ALTERAR PARA COMPARAR COM O BANCO OU O @ IFTO
     user = User(user_id)
     return user
 
@@ -85,6 +88,32 @@ def logout():
     for key in list(session.keys()):
         session.pop(key)
     return redirect('/')
+
+# rota de para exibir pesquisa no banco
+@app.route('/cursos')
+def cursos():
+    cursos = Cursos.query.all()
+     # Organize os cursos em um dicionário onde a chave é o nível e o valor é uma lista de cursos daquele nível
+    cursos_por_nivel = defaultdict(list)
+
+    for curso in cursos:
+        cursos_por_nivel[curso.Nivel].append(curso)
+
+    return render_template('cursos.html', cursos_por_nivel=cursos_por_nivel)
+    # return render_template('banco.html', cursos=cursos)
+
+@app.route('/cursos/<int:curso_id>')
+def materias(curso_id):
+    curso = Cursos.query.get(curso_id)
+    # Recupere as matérias relacionadas a este curso com base na coluna IDCurso
+    materias = Materias.query.filter_by(IDCurso=curso_id).all()
+
+    # Carregue o nome do professor para cada matéria
+    for materia in materias:
+        professor = Professores.query.get(materia.IDProfessor)
+        materia.professor_nome = professor.Nome
+
+    return render_template('materias.html', curso=curso, materias=materias)
 # ---------------------------------------------------------------------------------------------
   
 

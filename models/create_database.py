@@ -8,7 +8,7 @@ with app.app_context():
     db.create_all()
 
     # Insere Curso
-    # novo_curso = Cursos(Titulo="Sistemas de Informação", Nivel="Superior")
+    # novo_curso = Cursos(Titulo="Técnico em Informática", Nivel="Médio")
     # db.session.add(novo_curso)
     # db.session.commit()
 
@@ -18,6 +18,6 @@ with app.app_context():
     # db.session.commit()
 
     # Insere Matéria
-    novo_materia = Materias(Titulo="Matemática Discreta", Periodo=2, IDCurso=1, IDProfessor=1)
-    db.session.add(novo_materia)
-    db.session.commit()
+    # novo_materia = Materias(Titulo="Matemática Discreta", Periodo=2, IDCurso=1, IDProfessor=1)
+    # db.session.add(novo_materia)
+    # db.session.commit()
