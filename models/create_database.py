@@ -8,8 +8,17 @@ with app.app_context():
     db.create_all()
 
     # Insere Curso
-    # novo_curso = Cursos(Titulo="Técnico em Informática", Nivel="Médio")
+    # novo_curso = Cursos(Titulo="Técnico em Meio Ambiente", Nivel="Médio")
     # db.session.add(novo_curso)
+    
+    # cursos_a_inserir = [
+    # Cursos(Titulo="Técnico em Meio Ambiente", Nivel="Médio"),
+    # Cursos(Titulo="Administração", Nivel="Superior"),
+    # Cursos(Titulo="Licenciatura em Matemática", Nivel="Superior"),
+    # Cursos(Titulo="Licenciatura em Química", Nivel="Superior"),
+    # Cursos(Titulo="Tecnologia em Alimentos", Nivel="Superior"),
+    # ]
+    # db.session.add_all(cursos_a_inserir)
     # db.session.commit()
 
     # Insere Professor

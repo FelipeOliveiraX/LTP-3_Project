@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Resultado da Consulta</title>
+    <title>Avaliação Docente</title>
 </head>
 <body>
-    <h1>Resultados da Consulta</h1>
+    <h1>AVALIAÇÃO DOCENTE</h1>
     <ul>
         {% for nivel, cursos in cursos_por_nivel.items() %}
             <li>Nível: Ensino {{ nivel }}</li>
             <ul>
-                {% for curso in cursos %}
+                {% for curso in cursos %}                
                     <li><a href="{{ url_for('materias', curso_id=curso.IDCurso) }}">{{ curso.Titulo }}</a></li>
                 {% endfor %}
             </ul>

@@ -7,7 +7,7 @@ class Cursos(db.Model):
 
     IDCurso = db.Column(db.Integer, primary_key=True, autoincrement=True)
     Titulo = db.Column(db.String(255), nullable=False, unique=True)  # Coluna para o título (texto com até 255 caracteres)
-    Nivel = db.Column(db.String(50), nullable=False, unique=True)   # Coluna para o nível (texto com até 50 caracteres)
+    Nivel = db.Column(db.String(50), nullable=False)   # Coluna para o nível (texto com até 50 caracteres)
 
     def __init__(self, Titulo, Nivel):
         self.Titulo = Titulo
