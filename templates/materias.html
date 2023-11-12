@@ -1,17 +1,40 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detalhes do Curso</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='materias.css') }}">
 </head>
 <body>
-    <h1>{{ curso.Titulo }}</h1>
-    <h2>Nível: Ensino {{ curso.Nivel }}</h2>
+    <header>
+        <h1>{{ curso.Titulo }}</h1>
+        <h3>Disciplinas</h3>
+    </header>
 
-    <h3>Matérias</h3>
-    <ul>
-        {% for materia in materias %}
-            <li>{{ materia.Titulo }} - Professor(a): {{ materia.professor_nome }}</li>
+    <main>
+        {% for periodo, materias_do_periodo in materias_por_periodo.items() %}
+            <li>
+                <h4>{{ periodo }}º Período</h4>
+                <ul>
+                    {% for materia in materias_do_periodo %}
+                        <li>
+                            <form action="{{ url_for('avaliacao') }}" method="post">
+                                <input type="hidden" name="id_materia" value="{{ materia.IDMateria }}">
+                                <input type="hidden" name="id_professor" value="{{ materia.IDProfessor }}">
+                                <input type="hidden" name="materia_nome" value="{{ materia.Titulo }}">
+                                <input type="hidden" name="professor_nome" value="{{ materia.professor_nome }}">
+                                <button type="submit" style="background: none; border: none; padding: 0; margin: 0; cursor: pointer;">
+                                    <p>
+                                        {{ materia.Titulo }} - Professor(a): {{ materia.professor_nome }}
+                                    </p>
+                                </button>
+                            </form>                                                     
+                        </li>
+                    {% endfor %}                
+                </ul>
+            </li>
         {% endfor %}
-    </ul>
+    </main>
 </body>
 </html>

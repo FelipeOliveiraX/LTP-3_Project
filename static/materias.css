@@ -1,0 +1,27 @@
+body{
+    background-color: rgb(218, 245, 236);
+}
+h1{
+    display: flex;
+    justify-content: center;
+    background-color: rgb(0, 160, 85);
+    color: aliceblue;
+}
+ h2{
+    display: flex;
+    justify-content: center;
+    
+}
+ h3{
+    display: flex;
+    justify-content: center;
+    
+}
+main{
+    display: flex;
+    justify-content: center;
+    
+}
+li {
+    list-style-type: none; /* Adiciona esta linha para remover os marcadores de lista */
+}

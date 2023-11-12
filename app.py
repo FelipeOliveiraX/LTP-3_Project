@@ -1,9 +1,11 @@
-from flask import Flask, url_for, redirect, session, render_template
+from flask import Flask, url_for, session, redirect, render_template, request
 from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.exc import IntegrityError
 from authlib.integrations.flask_client import OAuth
 from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin
-from models.database import db, Cursos, Materias, Professores
+from models.database import db, Cursos, Materias, Professores, Avaliacoes
 from collections import defaultdict
+
 
 
 # -------------------------  START FLASK  -----------------------------------------------------
@@ -15,6 +17,7 @@ app.secret_key = 'really_secret'
 # -------------------------  DATABASE CONFIG  -------------------------------------------------
 # Configuração do SQLAlchemy
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///database.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db.init_app(app)
 # ---------------------------------------------------------------------------------------------
 
@@ -91,7 +94,7 @@ def logout():
         session.pop(key)
     return redirect('/')
 
-# rota de para exibir pesquisa no banco
+# rota dos cursos
 @app.route('/cursos')
 def cursos():
     cursos = Cursos.query.all()
@@ -104,18 +107,61 @@ def cursos():
     return render_template('cursos.html', cursos_por_nivel=cursos_por_nivel)
     # return render_template('banco.html', cursos=cursos)
 
-@app.route('/cursos/<int:curso_id>')
-def materias(curso_id):
-    curso = Cursos.query.get(curso_id)
-    # Recupere as matérias relacionadas a este curso com base na coluna IDCurso
-    materias = Materias.query.filter_by(IDCurso=curso_id).all()
+# rota das materias
+@app.route('/materias', methods=['POST'])
+def materias():
+    id_curso = request.form.get('id_curso')
+    curso = Cursos.query.get(id_curso)
 
-    # Carregue o nome do professor para cada matéria
+    # Recupera as matérias relacionadas a este curso com base no IDCurso
+    materias = Materias.query.filter_by(IDCurso=id_curso).all()
+
+    # Carregua o nome do professor para cada matéria
     for materia in materias:
         professor = Professores.query.get(materia.IDProfessor)
         materia.professor_nome = professor.Nome
 
-    return render_template('materias.html', curso=curso, materias=materias)
+    # Agrupa as matérias por período
+    materias_por_periodo = defaultdict(list)
+    for materia in materias:
+        materias_por_periodo[materia.Periodo].append(materia)
+
+    return render_template('materias.html', curso=curso, materias_por_periodo=dict(materias_por_periodo), materias=materias)
+
+@app.route('/avaliacao', methods=['POST'])
+def avaliacao():
+    id_materia = request.form.get('id_materia')
+    id_professor = request.form.get('id_professor')
+    materia_nome = request.form.get('materia_nome')
+    professor_nome = request.form.get('professor_nome')
+    print(f'id_materia: {id_materia}, id_professor: {id_professor}, materia_nome: {materia_nome}, professor_nome: {professor_nome}')
+    return render_template('avaliacao.html',
+                           id_materia=id_materia,
+                           id_professor=id_professor,
+                           materia_nome=materia_nome,
+                           professor_nome=professor_nome)
+
+@app.route('/salvar_avaliacao', methods=['POST'])
+def salvar_avaliacao():
+    try:
+        print(request.form)
+        nova_avaliacao = Avaliacoes(
+            IDMateria=request.form['IDMateria'],
+            IDProfessor=request.form['IDProfessor'],
+            EmailAluno=request.form['EmailAluno'],
+            Nota1=request.form['Nota1'],
+            Nota2=request.form['Nota2'],
+            Nota3=request.form['Nota3'],
+            Nota4=request.form['Nota4'],
+            Nota5=request.form['Nota5'],
+            Nota6=request.form['Nota6']
+        )
+        db.session.add(nova_avaliacao)
+        db.session.commit()
+        return 'Avaliação adicionada com sucesso!'
+    except IntegrityError:
+        db.session.rollback()
+        return 'Erro: Avaliação duplicada. Cada aluno só pode ter uma avaliação por matéria.'
 # ---------------------------------------------------------------------------------------------
   
 
