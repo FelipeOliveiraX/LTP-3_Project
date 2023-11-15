@@ -27,7 +27,7 @@ class Professores(db.Model):
         self.Email = Email
 # ---------------------------------------------------------------------------------------
 class Materias(db.Model):
-    __tablename__ = 'materias'  #
+    __tablename__ = 'materias'  
 
     IDMateria = db.Column(db.Integer, primary_key=True, autoincrement=True)
     Titulo = db.Column(db.String(255), nullable=False)

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resultado Avaliação Discente</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='resultados_prof.css') }}">
+</head>
+<body>
+    <h1>Resultado Avaliação Discente</h1>
+    <h1>Docente: {{ professor.Nome }}</h1>
+    
+    {% for materia in media_por_materia %}
+        <h2>Disciplina: {{ materia.TituloMateria }}</h2>
+        <table>
+            <thead>
+                <tr>
+                    <th>Quesito</th>
+                    <th>Média</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1. O docente apresentou seu plano de ensino (PLANEJAMENTO) no início do semestre ou ano letivo, indicando a ementa, competências e habilidades, recursos didáticos que serão utilizados, formas de avaliações, referências bibliográficas?</td>
+                    <td>{{ materia.media_nota1 }}</td>
+                </tr>
+                <tr>
+                    <td>2. O docente apresenta uma POSTURA adequada ao cargo e responsabilidade que ocupa?</td>
+                    <td>{{ materia.media_nota2 }}</td>
+                </tr>
+                <tr>
+                    <td>3. O docente é ASSÍDUO, ou seja, não falta às aulas e quando falta, apresenta justificativa e promove suas devidas reposições ou anteposições?</td>
+                    <td>{{ materia.media_nota3 }}</td>
+                </tr>
+                <tr>
+                    <td>4. O docente é PONTUAL, ou seja, não chega atrasado ou libera a turma mais cedo?</td>
+                    <td>{{ materia.media_nota4 }}</td>
+                </tr>
+                <tr>
+                    <td>5. O docente na REALIZAÇÃO de suas aulas procura contextualizar os conteúdos trabalhados; domina o conteúdo; possui fala (dicção) clara, coerente e fluente?</td>
+                    <td>{{ materia.media_nota5 }}</td>
+                </tr>
+                <tr>
+                    <td>6. O docente nas AVALIAÇÕES mostra coerência entre o que foi ensinado e o que é exigido do estudante, entrega as avaliações e comenta os resultados, auxilia no processo de recuperação daqueles conteúdos não apreendidos?</td>
+                    <td>{{ materia.media_nota6 }}</td>
+                </tr>
+                <tr>
+                    <td>PONTUAÇÃO FINAL DA TURMA (somatória das médias dividido por dois)</td>
+                    <td>{{ materia.media_total }}</td>
+                </tr>
+            </tbody>
+        </table>        
+    {% endfor %}
+    <table>
+        <tbody>
+            <tr>
+                <td>MÉDIA DA PONTUAÇÃO DAS TURMAS CONSOLIDADO - RESULTADO FINAL</td>
+                <td>{{ media_das_medias }}</td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

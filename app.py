@@ -1,12 +1,11 @@
 from flask import Flask, url_for, session, redirect, render_template, request
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
+from sqlalchemy import func
 from authlib.integrations.flask_client import OAuth
 from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin
 from models.database import db, Cursos, Materias, Professores, Avaliacoes
 from collections import defaultdict
-
-
 
 # -------------------------  START FLASK  -----------------------------------------------------
 app = Flask(__name__, template_folder='templates')
@@ -39,7 +38,7 @@ google = oauth.register(
 
 # -------------------------  FLASK LOGIN  -----------------------------------------------------
 login_manager = LoginManager(app)
-login_manager.login_view = 'not_logged_in'
+login_manager.login_view = 'not_logged'
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -59,7 +58,7 @@ class User(UserMixin):
 @login_required
 def hello_world():
     name = dict(session).get('name', None)
-    return f'Olá, seja bem-vindo(a) {name}!'"<a href='/logout'><button>Logout</button></a>"    
+    return render_template('index.html', name=name) 
 
 # rota intermediária para login (não precisa de template)
 @app.route('/login')
@@ -83,9 +82,9 @@ def authorize():
     return redirect('/')
 
 # rota temporária da página de usuário não logado, melhorar futuramente
-@app.route("/not_logged_in")
-def not_logged_in():
-    return f'Você não está logado. Clique aqui para fazer login -->'"<a href='/login'><button>Login</button></a>"  
+@app.route("/not_logged")
+def not_logged():
+    return render_template('not_logged.html')  
 
 # rota de logout (não precisa de template)
 @app.route('/logout')
@@ -108,8 +107,8 @@ def cursos():
     # return render_template('banco.html', cursos=cursos)
 
 # rota das materias
-@app.route('/materias', methods=['POST'])
-def materias():
+@app.route('/cursos/<path:curso_titulo>', methods=['POST'])
+def materias(curso_titulo):
     id_curso = request.form.get('id_curso')
     curso = Cursos.query.get(id_curso)
 
@@ -162,6 +161,54 @@ def salvar_avaliacao():
     except IntegrityError:
         db.session.rollback()
         return 'Erro: Avaliação duplicada. Cada aluno só pode ter uma avaliação por matéria.'
+    
+@app.route('/resultados')
+def listar_professores():
+    # Recupera a lista de professores em ordem alfabética
+    professores_em_ordem = Professores.query.order_by(Professores.Nome).all()
+    
+    return render_template('resultados.html', professores=professores_em_ordem)
+
+@app.route('/resultados/<path:professor_nome>', methods=['POST'])
+def exibir_avaliacoes_professor(professor_nome):
+    # Recupera o professor pelo nome
+    professor = Professores.query.filter_by(Nome=professor_nome).first()
+
+    # Consulta para calcular a média das avaliações agrupadas por matéria   
+    resultados_query = db.session.query(
+        Materias.Titulo,
+        func.avg(Avaliacoes.Nota1).label('media_nota1'),
+        func.avg(Avaliacoes.Nota2).label('media_nota2'),
+        func.avg(Avaliacoes.Nota3).label('media_nota3'),
+        func.avg(Avaliacoes.Nota4).label('media_nota4'),
+        func.avg(Avaliacoes.Nota5).label('media_nota5'),
+        func.avg(Avaliacoes.Nota6).label('media_nota6')
+    ).join(Avaliacoes, Materias.IDMateria == Avaliacoes.IDMateria) \
+    .filter(Avaliacoes.IDProfessor == professor.IDProfessor) \
+    .group_by(Materias.Titulo).all()
+
+    # Criar uma lista de dicionários para armazenar os resultados
+    media_por_materia = []
+    for resultado in resultados_query:
+        # Calcule a soma das médias e divida por 2
+        media_total = round((resultado.media_nota1 + resultado.media_nota2 + resultado.media_nota3 +
+                        resultado.media_nota4 + resultado.media_nota5 + resultado.media_nota6) / 2, 2)
+        # Adicione as informações à lista de dicionários
+        media_por_materia.append({
+            'TituloMateria': resultado.Titulo,
+            'media_nota1': resultado.media_nota1,
+            'media_nota2': resultado.media_nota2,
+            'media_nota3': resultado.media_nota3,
+            'media_nota4': resultado.media_nota4,
+            'media_nota5': resultado.media_nota5,
+            'media_nota6': resultado.media_nota6,
+            'media_total': media_total
+        })
+    # Calcule a média das médias totais
+    media_das_medias = round(sum(materia['media_total'] for materia in media_por_materia) / len(media_por_materia), 2)
+    print(media_das_medias)
+    # Renderize o template HTML com as médias das avaliações por matéria
+    return render_template('resultados_prof.html', professor=professor, media_por_materia=media_por_materia, media_das_medias=media_das_medias)
 # ---------------------------------------------------------------------------------------------
   
 
