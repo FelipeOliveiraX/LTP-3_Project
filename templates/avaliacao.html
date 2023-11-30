@@ -10,10 +10,8 @@
     <form method="POST" action="{{ url_for('salvar_avaliacao') }}">
         
         <input type="hidden" name="IDMateria" value="{{ id_materia }}">
-        <input type="hidden" name="IDProfessor" value="{{ id_professor }}">      
-
-        <label for="EmailAluno">Email do Aluno:</label>
-        <input type="email" name="EmailAluno" required><br>
+        <input type="hidden" name="IDProfessor" value="{{ id_professor }}">  
+        <input type="hidden" name="EmailAluno" value="{{ session.get('email') }}">
 
         <label for="Nota1">1. O docente apresentou seu plano de ensino (PLANEJAMENTO) no início do semestre ou ano letivo, indicando a ementa, competências e habilidades, recursos didáticos que serão utilizados, formas de avaliações, referências bibliográficas?</label><br>
         <input type="radio" name="Nota1" value="1">1

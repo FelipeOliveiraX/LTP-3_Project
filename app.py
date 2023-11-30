@@ -3,7 +3,7 @@ from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 from sqlalchemy import func
 from authlib.integrations.flask_client import OAuth
-from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin
+from flask_login import LoginManager, login_required, login_user, logout_user, UserMixin, current_user
 from models.database import db, Cursos, Materias, Professores, Avaliacoes
 from collections import defaultdict
 
@@ -74,12 +74,19 @@ def authorize():
     token = google.authorize_access_token()
     resp = google.get('userinfo')    
     user_info = resp.json()
-    # Cria uma instância do usuário e faz o login
-    user = User(user_info['email'])
-    login_user(user)
-    # Armazene o nome na sessão
-    session['name'] = user_info.get('name', None)     
-    return redirect('/')
+    
+    # Verifica se o e-mail termina com "@estudante.ifto.edu.br"
+    if user_info.get('email', '').endswith('@estudante.ifto.edu.br'):
+        # Cria uma instância do usuário e faz o login
+        user = User(user_info['email'])
+        login_user(user)
+        # Armazene o nome e email na sessão
+        session['name'] = user_info.get('name', None) 
+        session['email'] = user_info.get('email', None)    
+        return redirect('/')
+    else:
+        # Se o e-mail não atender aos critérios, redirecione para uma página de erro
+        return render_template('error.html', error_message='Apenas e-mails institucionais são permitidos.')
 
 # rota temporária da página de usuário não logado, melhorar futuramente
 @app.route("/not_logged")
@@ -95,6 +102,7 @@ def logout():
 
 # rota dos cursos
 @app.route('/cursos')
+@login_required
 def cursos():
     cursos = Cursos.query.all()
      # Organize os cursos em um dicionário onde a chave é o nível e o valor é uma lista de cursos daquele nível
@@ -108,6 +116,7 @@ def cursos():
 
 # rota das materias
 @app.route('/cursos/<path:curso_titulo>', methods=['POST'])
+@login_required
 def materias(curso_titulo):
     id_curso = request.form.get('id_curso')
     curso = Cursos.query.get(id_curso)
@@ -128,11 +137,13 @@ def materias(curso_titulo):
     return render_template('materias.html', curso=curso, materias_por_periodo=dict(materias_por_periodo), materias=materias)
 
 @app.route('/avaliacao', methods=['POST'])
+@login_required
 def avaliacao():
     id_materia = request.form.get('id_materia')
     id_professor = request.form.get('id_professor')
     materia_nome = request.form.get('materia_nome')
     professor_nome = request.form.get('professor_nome')
+    session['email'] = session.get('email', None)
     print(f'id_materia: {id_materia}, id_professor: {id_professor}, materia_nome: {materia_nome}, professor_nome: {professor_nome}')
     return render_template('avaliacao.html',
                            id_materia=id_materia,
@@ -141,6 +152,7 @@ def avaliacao():
                            professor_nome=professor_nome)
 
 @app.route('/salvar_avaliacao', methods=['POST'])
+@login_required
 def salvar_avaliacao():
     try:
         print(request.form)
@@ -160,9 +172,10 @@ def salvar_avaliacao():
         return 'Avaliação adicionada com sucesso!'
     except IntegrityError:
         db.session.rollback()
-        return 'Erro: Avaliação duplicada. Cada aluno só pode ter uma avaliação por matéria.'
+        return render_template('error.html', error_message='Avaliação duplicada. Cada aluno só pode ter uma avaliação por matéria.')        
     
 @app.route('/resultados')
+@login_required
 def listar_professores():
     # Recupera a lista de professores em ordem alfabética
     professores_em_ordem = Professores.query.order_by(Professores.Nome).all()
@@ -170,6 +183,7 @@ def listar_professores():
     return render_template('resultados.html', professores=professores_em_ordem)
 
 @app.route('/resultados/<path:professor_nome>', methods=['POST'])
+@login_required
 def exibir_avaliacoes_professor(professor_nome):
     # Recupera o professor pelo nome
     professor = Professores.query.filter_by(Nome=professor_nome).first()
