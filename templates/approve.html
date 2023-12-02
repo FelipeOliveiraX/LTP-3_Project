@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sucesso</title>  
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='approve.css') }}">  
+</head>
+<body>
+    <div class="approve-container">
+        <img id="approve-image" src="{{ url_for('static', filename='img/approve.png') }}" alt="Nice">
+        <p>{{ approve_message }}</p>
+        <a class="return-button" href="/cursos">Retornar ao Início</a>
+    </div>
+</body>
+</html>
