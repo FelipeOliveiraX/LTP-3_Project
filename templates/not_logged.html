@@ -1,11 +1,37 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 <head>
-    <title>Não Logado</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@100;200;300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='not_logged.css') }}">
+    <title>Login</title>
 </head>
+
 <body>
-    <h1>Você não está logado.</h1>
-    <p>Clique aqui para fazer login:</p>
-    <a href='/login'><button>Login</button></a>
+    <main id="main">
+        <div class="container">
+            <section class="left-container">
+                <div class="logo-box">
+                    <img id="ifto-image" src="{{ url_for('static', filename='img/ifto.png') }}" alt="IFTO Campus Paraíso" class="logo">
+                </div>
+            </section>
+            <section class="right-container">
+                <div class="login-box">                    
+                    <h2 class="login-title">Bem vindo(a)!</h2>
+                    <h4 class="login-subtitle">Você precisa fazer login para acessar essa página.</h4>  
+                    <a href='/login'>
+                        <div class="login-google">
+                            <img id="google-image" src="{{ url_for('static', filename='img/web_light_sq_ctn.svg') }}" alt="Google Login">
+                        </div>   
+                    </a>               
+                </div>
+            </section>
+        </div>
+    </main>
 </body>
+
 </html>
