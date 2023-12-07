@@ -6,7 +6,7 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background-color: #f0f0f0; /* Altere a cor de fundo conforme necessário */
+    background-color: #f0f0f0; 
 }
 
 #mec-image {
@@ -21,17 +21,17 @@ body {
 }
 
 .cabecalho p {
-    margin: 0; /* Remove a margem padrão dos parágrafos */
+    margin: 0; 
 }
 
 .container {
-    width: 21cm; /* Largura aproximada de uma página A4 */
+    width: 21cm; 
     max-width: 100%;
     margin: 20px;
-    background-color: #fff; /* Cor de fundo do container */
+    background-color: #fff; 
     padding: 20px;
     border-radius: 10px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Sombra para dar destaque ao container */
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); 
 }
 
 h1, h2 {
@@ -50,10 +50,10 @@ table {
     margin-top: 20px;
     margin-bottom: 50px;
     width: 100%;
-    max-width: 100%; /* Garante que a tabela não ultrapasse a largura máxima do container */
+    max-width: 100%; 
     border-collapse: collapse;  
-    border-radius: 8px; /* Adiciona cantos levemente arredondados à tabela */
-    overflow: hidden; /* Garante que os cantos arredondados sejam aplicados corretamente */      
+    border-radius: 8px; 
+    overflow: hidden;       
 }
 
 th, td {
@@ -90,14 +90,14 @@ th {
 @media print {
     @page {
         size: A4;
-        margin-top: 3cm; /* Margem superior */
-        margin-right: 2cm; /* Margem direita */
-        margin-bottom: 2cm; /* Margem inferior */
-        margin-left: 2cm; /* Margem esquerda */
+        margin-top: 3cm; 
+        margin-right: 2cm; 
+        margin-bottom: 2cm; 
+        margin-left: 2cm; 
     }
 
     @page :first {
-        margin-top: 0.8cm; /* Margem superior específica para a primeira página */
+        margin-top: 0.8cm; 
     }
 
     body * {
@@ -109,21 +109,21 @@ th {
     }
 
     .container {
-        width: 100%; /* Ocupa toda a largura da página impressa */
-        margin: 0; /* Sem margem para a impressão */
-        box-shadow: none; /* Sem sombra para a impressão */
-        page-break-before: always; /* Garante uma nova página para cada container */
+        width: 100%; 
+        margin: 0; 
+        box-shadow: none; 
+        page-break-before: always; 
     }
 
     .identify {
-        font-size: 80%; /* Evita que o contêiner seja quebrado entre páginas */
+        font-size: 80%; 
     } 
 
     .disciplina-container {
-        page-break-inside: avoid; /* Evita que o contêiner seja quebrado entre páginas */
+        page-break-inside: avoid; 
     } 
 
     table {
-        font-size: 80%; /* Ajuste o valor conforme necessário para reduzir o tamanho da fonte */
+        font-size: 80%; 
     }
 }

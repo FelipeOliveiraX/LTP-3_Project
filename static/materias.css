@@ -23,5 +23,5 @@ main{
     
 }
 li {
-    list-style-type: none; /* Adiciona esta linha para remover os marcadores de lista */
+    list-style-type: none; 
 }

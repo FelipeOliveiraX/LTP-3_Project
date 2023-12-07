@@ -4,88 +4,244 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Formulário de Avaliação</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='avaliacao.css') }}">
 </head>
 <body>
-    <h1>Avaliação - {{ materia_nome }} - Professor(a): {{ professor_nome }}</h1>
-    <form method="POST" action="{{ url_for('salvar_avaliacao') }}">
-        
-        <input type="hidden" name="IDMateria" value="{{ id_materia }}">
-        <input type="hidden" name="IDProfessor" value="{{ id_professor }}">  
-        <input type="hidden" name="EmailAluno" value="{{ session.get('email') }}">
+    <div class="container">
+        <h1>Avaliação de Docente - 2023/2</h1><br>
+        <h2>Disciplina: {{ materia_nome }}</h2>
+        <h2>Professor(a): {{ professor_nome }}</h2><br>
+        <div class="container-submit">                
+            <a class="return-button" href="/cursos">Retornar ao Início</a>
+        </div>
+        <h3>Atribua uma nota de 1 a 10 para cada uma das perguntas abaixo:</h3>
+        <form method="POST" action="{{ url_for('salvar_avaliacao') }}">
+            
+            <input type="hidden" name="IDMateria" value="{{ id_materia }}">
+            <input type="hidden" name="IDProfessor" value="{{ id_professor }}">  
+            <input type="hidden" name="EmailAluno" value="{{ session.get('email') }}">
 
-        <label for="Nota1">1. O docente apresentou seu plano de ensino (PLANEJAMENTO) no início do semestre ou ano letivo, indicando a ementa, competências e habilidades, recursos didáticos que serão utilizados, formas de avaliações, referências bibliográficas?</label><br>
-        <input type="radio" name="Nota1" value="1">1
-        <input type="radio" name="Nota1" value="2">2
-        <input type="radio" name="Nota1" value="3">3
-        <input type="radio" name="Nota1" value="4">4
-        <input type="radio" name="Nota1" value="5">5
-        <input type="radio" name="Nota1" value="6">6
-        <input type="radio" name="Nota1" value="7">7
-        <input type="radio" name="Nota1" value="8">8
-        <input type="radio" name="Nota1" value="9">9
-        <input type="radio" name="Nota1" value="10">10<br><br>
+            <div class="container-question">
+                <label for="Nota1">1. O docente apresentou seu plano de ensino (PLANEJAMENTO) no início do semestre ou ano letivo, indicando a ementa, competências e habilidades, recursos didáticos que serão utilizados, formas de avaliações, referências bibliográficas?</label>
+                <div class="container-options">
+                    <div class="container-button">
+                        <input type="radio" name="Nota1" value="1">1
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota1" value="2">2
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota1" value="3">3
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota1" value="4">4
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota1" value="5">5
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota1" value="6">6
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota1" value="7">7
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota1" value="8">8
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota1" value="9">9
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota1" value="10">10 
+                    </div>
+                </div>               
+            </div>
 
-        <label for="Nota2">2. O docente apresenta uma POSTURA adequada ao cargo e responsabilidade que ocupa?</label><br>
-        <input type="radio" name="Nota2" value="1">1
-        <input type="radio" name="Nota2" value="2">2
-        <input type="radio" name="Nota2" value="3">3
-        <input type="radio" name="Nota2" value="4">4
-        <input type="radio" name="Nota2" value="5">5
-        <input type="radio" name="Nota2" value="6">6
-        <input type="radio" name="Nota2" value="7">7
-        <input type="radio" name="Nota2" value="8">8
-        <input type="radio" name="Nota2" value="9">9
-        <input type="radio" name="Nota2" value="10">10<br><br>
+            <div class="container-question"> 
+                <label for="Nota2" class="questao">2. O docente apresenta uma POSTURA adequada ao cargo e responsabilidade que ocupa?</label>
+                <div class="container-options">
+                    <div class="container-button">
+                        <input type="radio" name="Nota2" value="1">1
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota2" value="2">2
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota2" value="3">3
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota2" value="4">4
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota2" value="5">5
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota2" value="6">6
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota2" value="7">7
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota2" value="8">8
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota2" value="9">9
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota2" value="10">10 
+                    </div>
+                </div> 
+            </div>  
 
-        <label for="Nota3">3. O docente é ASSÍDUO, ou seja, não falta às aulas e quando falta, apresenta justificativa e promove suas devidas reposições ou anteposições?</label><br>
-        <input type="radio" name="Nota3" value="1">1
-        <input type="radio" name="Nota3" value="2">2
-        <input type="radio" name="Nota3" value="3">3
-        <input type="radio" name="Nota3" value="4">4
-        <input type="radio" name="Nota3" value="5">5
-        <input type="radio" name="Nota3" value="6">6
-        <input type="radio" name="Nota3" value="7">7
-        <input type="radio" name="Nota3" value="8">8
-        <input type="radio" name="Nota3" value="9">9
-        <input type="radio" name="Nota3" value="10">10<br><br>
+            <div class="container-question"> 
+                <label for="Nota3" class="questao">3. O docente é ASSÍDUO, ou seja, não falta às aulas e quando falta, apresenta justificativa e promove suas devidas reposições ou anteposições?</label>
+                <div class="container-options">
+                    <div class="container-button">
+                        <input type="radio" name="Nota3" value="1">1
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota3" value="2">2
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota3" value="3">3
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota3" value="4">4
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota3" value="5">5
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota3" value="6">6
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota3" value="7">7
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota3" value="8">8
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota3" value="9">9
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota3" value="10">10 
+                    </div>
+                </div> 
+            </div> 
 
-        <label for="Nota4">4. O docente é PONTUAL, ou seja, não chega atrasado ou libera a turma mais cedo?</label><br>
-        <input type="radio" name="Nota4" value="1">1
-        <input type="radio" name="Nota4" value="2">2
-        <input type="radio" name="Nota4" value="3">3
-        <input type="radio" name="Nota4" value="4">4
-        <input type="radio" name="Nota4" value="5">5
-        <input type="radio" name="Nota4" value="6">6
-        <input type="radio" name="Nota4" value="7">7
-        <input type="radio" name="Nota4" value="8">8
-        <input type="radio" name="Nota4" value="9">9
-        <input type="radio" name="Nota4" value="10">10<br><br>
+            <div class="container-question"> 
+                <label for="Nota4" class="questao">4. O docente é PONTUAL, ou seja, não chega atrasado ou libera a turma mais cedo?</label>
+                <div class="container-options">
+                    <div class="container-button">
+                        <input type="radio" name="Nota4" value="1">1
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota4" value="2">2
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota4" value="3">3
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota4" value="4">4
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota4" value="5">5
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota4" value="6">6
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota4" value="7">7
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota4" value="8">8
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota4" value="9">9
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota4" value="10">10 
+                    </div>
+                </div> 
+            </div> 
 
-        <label for="Nota5">5. O docente na REALIZAÇÃO de suas aulas procura contextualizar os conteúdos trabalhados; domina o conteúdo; possui fala (dicção) clara, coerente e fluente?</label><br>
-        <input type="radio" name="Nota5" value="1">1
-        <input type="radio" name="Nota5" value="2">2
-        <input type="radio" name="Nota5" value="3">3
-        <input type="radio" name="Nota5" value="4">4
-        <input type="radio" name="Nota5" value="5">5
-        <input type="radio" name="Nota5" value="6">6
-        <input type="radio" name="Nota5" value="7">7
-        <input type="radio" name="Nota5" value="8">8
-        <input type="radio" name="Nota5" value="9">9
-        <input type="radio" name="Nota5" value="10">10<br><br>
+            <div class="container-question"> 
+                <label for="Nota5" class="questao">5. O docente na REALIZAÇÃO de suas aulas procura contextualizar os conteúdos trabalhados; domina o conteúdo; possui fala (dicção) clara, coerente e fluente?</label>
+                <div class="container-options">
+                    <div class="container-button">
+                        <input type="radio" name="Nota5" value="1">1
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota5" value="2">2
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota5" value="3">3
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota5" value="4">4
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota5" value="5">5
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota5" value="6">6
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota5" value="7">7
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota5" value="8">8
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota5" value="9">9
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota5" value="10">10 
+                    </div>
+                </div> 
+            </div> 
 
-        <label for="Nota6">6. O docente nas AVALIAÇÕES mostra coerência entre o que foi ensinado e o que é exigido do estudante, entrega as avaliações e comenta os resultados, auxilia no processo de recuperação daqueles conteúdos não apreendidos?</label><br>
-        <input type="radio" name="Nota6" value="1">1
-        <input type="radio" name="Nota6" value="2">2
-        <input type="radio" name="Nota6" value="3">3
-        <input type="radio" name="Nota6" value="4">4
-        <input type="radio" name="Nota6" value="5">5
-        <input type="radio" name="Nota6" value="6">6
-        <input type="radio" name="Nota6" value="7">7
-        <input type="radio" name="Nota6" value="8">8
-        <input type="radio" name="Nota6" value="9">9
-        <input type="radio" name="Nota6" value="10">10<br><br>
-        
-        <input type="submit" value="Enviar Avaliação">
-    </form>
+            <div class="container-question"> 
+                <label for="Nota6" class="questao">6. O docente nas AVALIAÇÕES mostra coerência entre o que foi ensinado e o que é exigido do estudante, entrega as avaliações e comenta os resultados, auxilia no processo de recuperação daqueles conteúdos não apreendidos?</label>
+                <div class="container-options">
+                    <div class="container-button">
+                        <input type="radio" name="Nota6" value="1">1
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota6" value="2">2
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota6" value="3">3
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota6" value="4">4
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota6" value="5">5
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota6" value="6">6
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota6" value="7">7
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota6" value="8">8
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota6" value="9">9
+                    </div>
+                    <div class="container-button">
+                        <input type="radio" name="Nota6" value="10">10 
+                    </div>
+                </div> 
+            </div>                       
+
+            <div class="container-submit">
+                <input type="submit" value="Enviar Avaliação">   
+            </div>         
+            
+        </form>
+    </div>
 </body>
 </html>

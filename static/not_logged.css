@@ -40,6 +40,9 @@
   .logo-box {    
     margin: 3rem;
     border-radius: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center; 
   }
   
   .logo {
@@ -67,8 +70,16 @@
     margin: 50px 100px;  
     padding: 90px 30px 40px;
   }
-    
+
   .login-title {
+    margin-top: 20px;
+    color: #35863f;
+    font-weight: 600;
+    font-size: 2.1rem;
+    text-align: center;    
+  }
+    
+  .login-title2 {
     color: #35863f;
     font-weight: 600;
     font-size: 2.1rem;
@@ -85,13 +96,13 @@
   }
       
   .login-google {
-    transition: background-color 0.3s ease; /* Adiciona uma transição suave à mudança de cor */
-    border-radius: 10px; /* Adiciona bordas arredondadas */
+    transition: background-color 0.3s ease; 
+    border-radius: 10px; 
     display: flex;
-    justify-content: center; /* Centraliza o conteúdo na horizontal */
-    align-items: center; /* Centraliza o conteúdo na vertical */
-    padding: 10px; /* Adiciona um preenchimento interno para o conteúdo */
-    width: 200px; /* Ajuste o valor conforme necessário para diminuir a largura */
+    justify-content: center; 
+    align-items: center; 
+    padding: 10px; 
+    width: 200px; 
     height: 50px;
   }
 
