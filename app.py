@@ -119,7 +119,7 @@ def materias(curso_titulo):
     id_curso = request.form.get('id_curso') # recebe o IDCurso passado pela página anterior
     curso = Cursos.query.get(id_curso) # busca qual o curso, baseado no IDCurso  
     materias = Materias.query.filter_by(IDCurso=id_curso).all() # recupera as matérias relacionadas a este curso com base no IDCurso
-
+    print(curso.Titulo)
     # carrega o nome do professor para cada matéria
     for materia in materias:
         professor = Professores.query.get(materia.IDProfessor)

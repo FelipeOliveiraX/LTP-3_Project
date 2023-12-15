@@ -8,7 +8,11 @@
 </head>
 <body>
     <header>
+        <div class="back">
+            <a href='/'><button>Voltar</button></a>        
+        </div>
          <h1>AVALIAÇÃO DOCENTE</h1>
+         <p>IFTO - Instituto Federal do Tocantins</p>
     </header>
    <main>
         <ul>
@@ -19,7 +23,7 @@
                         <li class="bloco">
                             <form action="{{ url_for('materias', curso_titulo=curso.Titulo) }}" method="post">
                                 <input type="hidden" name="id_curso" value="{{ curso.IDCurso }}">
-                                <button type="submit" style="background: none; border: none; padding: 0; margin: 0; cursor: pointer;">
+                                <button type="submit">
                                     {{ curso.Titulo }}
                                 </button>
                             </form>

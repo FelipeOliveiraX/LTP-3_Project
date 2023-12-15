@@ -8,15 +8,19 @@
 </head>
 <body>
     <header>
+        <div class="back">
+            <a href='/cursos'><button>Voltar</button></a>
+        </div>
         <h1>{{ curso.Titulo }}</h1>
-        <h3>Disciplinas</h3>
+        <h3>Disciplinas</h3>        
     </header>
 
     <main>
         {% for periodo, materias_do_periodo in materias_por_periodo.items() %}
             <li>
-                <h4>{{ periodo }}º Período</h4>
+                
                 <ul>
+                    <h4>{{ periodo }}º Período</h4>
                     {% for materia in materias_do_periodo %}
                         <li>
                             <form action="{{ url_for('avaliacao') }}" method="post">
