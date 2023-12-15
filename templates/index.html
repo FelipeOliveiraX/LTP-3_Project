@@ -1,12 +1,17 @@
 <!DOCTYPE html>
 <html>
 <head>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='index.css') }}">
     <title>Página Inicial</title>
 </head>
 <body>
-    <h1>Olá, seja bem-vindo(a) {{ name }}!</h1>
-    <a href='/logout'><button>Logout</button></a>
+    <div class="container">
+        <img src="{{ url_for('static', filename='img/ifto.png') }}" alt="IFTO" class="logo">
+    <h1>Olá, {{ name }}!</h1>
+    <h2>Seja bem-vindo(a) ao Sistema de Avaliação de Docentes.</h2>    
     <a href='/cursos'><button>Avaliar</button></a>
     <a href='/resultados'><button>Resultados</button></a>
+    <a href='/logout'><button class="button-logout">Logout</button></a>
 </body>
 </html>
+
